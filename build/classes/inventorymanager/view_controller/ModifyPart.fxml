@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inventorymanager.view_controller.ModifyPartController">
+   <children>
+      <Label id="Label" fx:id="ModifyPartLabel" layoutX="17.0" layoutY="14.0" prefHeight="50.0" prefWidth="200.0" text="Modify Part">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label id="Label" fx:id="MinLabel" layoutX="322.0" layoutY="323.0" text="Min" />
+      <Label id="Label" fx:id="SpecialLabel" layoutX="14.0" layoutY="386.0" />
+      <Label id="Label" fx:id="MaxLabel" layoutX="17.0" layoutY="323.0" text="Max" />
+      <Label id="Label" fx:id="PriceLabel" layoutX="21.0" layoutY="268.0" text="Price/Cost" />
+      <Label id="Label" fx:id="InventoryLabel" layoutX="17.0" layoutY="200.0" text="Inv" />
+      <Label id="Label" fx:id="NameLabel" layoutX="17.0" layoutY="143.0" text="Name" />
+      <Label id="Label" fx:id="IDLabel" layoutX="17.0" layoutY="85.0" text="ID" />
+      <HBox alignment="CENTER_LEFT" layoutX="161.0" layoutY="14.0" prefHeight="63.0" prefWidth="280.0" spacing="40.0">
+         <children>
+            <RadioButton fx:id="InHouseRadio" mnemonicParsing="false" onAction="#toggleButton" text="In-House">
+               <toggleGroup>
+                  <ToggleGroup fx:id="InHouseOutsourcedToggle" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="OutsourcedRadio" mnemonicParsing="false" onAction="#toggleButton" text="Outsourced" toggleGroup="$InHouseOutsourcedToggle" />
+         </children>
+      </HBox>
+      <TextField id="TextField" fx:id="SpecialField" layoutX="134.0" layoutY="381.0" />
+      <TextField id="TextField" fx:id="MaxField" layoutX="134.0" layoutY="318.0" promptText="Max # of units" />
+      <TextField id="TextField" fx:id="MinField" layoutX="390.0" layoutY="318.0" promptText="Min # of units" />
+      <TextField id="TextField" fx:id="PriceField" layoutX="134.0" layoutY="263.0" promptText="Price" />
+      <TextField id="TextField" fx:id="InventoryField" layoutX="134.0" layoutY="204.0" promptText="Inventory" />
+      <TextField id="TextField" fx:id="NameField" layoutX="134.0" layoutY="138.0" promptText="Part Name" />
+      <TextField id="TextField" fx:id="IDField" layoutX="134.0" layoutY="80.0" promptText="ID" />
+      <Button id="Button" fx:id="CancelBtn" layoutX="412.0" layoutY="439.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+      <Button id="Button" fx:id="SaveBtn" layoutX="322.0" layoutY="439.0" mnemonicParsing="false" onAction="#handleSave" text="Save" />
+   </children>
+</AnchorPane>
