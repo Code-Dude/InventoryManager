@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -42,7 +44,7 @@ public class MainMenuController implements Initializable {
     private TableColumn<Part, Integer> PartIDColumn;
 
     @FXML
-    private TableColumn<Part, Integer> ProductInventoryColumn;
+    private TableColumn<Product, Integer> ProductInventoryColumn;
 
     @FXML
     private TableView<Part> PartsTableView;
@@ -92,6 +94,12 @@ public class MainMenuController implements Initializable {
     @FXML
     private TableView<Product> ProductsTableView;
     
+    @FXML
+    private Button cancelSearchPartBtn;
+    
+    @FXML
+    private Button cancelSearchProductBtn;
+    
     private InventoryManager mainApp;
     
     /**
@@ -103,21 +111,38 @@ public class MainMenuController implements Initializable {
         PartNameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
         PartInventoryColumn.setCellValueFactory(cellData -> cellData.getValue().getInStockProperty().asObject());
         PartPriceColumn.setCellValueFactory(cellData -> cellData.getValue().getPriceProperty().asObject());
+        
+        ProductIDColumn.setCellValueFactory(cellData -> cellData.getValue().getProductIDProperty().asObject());
+        ProductNameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
+        ProductInventoryColumn.setCellValueFactory(cellData -> cellData.getValue().getInStockProperty().asObject());
+        ProductPriceColumn.setCellValueFactory(cellData -> cellData.getValue().getPriceProperty().asObject());
     }   
     
     @FXML
     void exit(ActionEvent event) {
-
+        System.exit(0);
     }
 
     @FXML
-    void handleLoadAddProduct(ActionEvent event) {
-
+    void handleAddProduct(ActionEvent event) throws IOException {
+        Product product = new Product();
+        boolean partSaved = mainApp.showAddProduct(product);
+        if(partSaved) {
+            mainApp.getProductsList().add(product);
+            ProductsTableView.setItems(mainApp.getProductsList());
+            ProductsTableView.refresh();
+        }
     }
 
     @FXML
-    void handleLoadModifyProduct(ActionEvent event) {
-
+    void handleModifyProduct(ActionEvent event) throws IOException {
+        Product selectedProduct = ProductsTableView.getSelectionModel().getSelectedItem();
+        if(selectedProduct != null) {
+            boolean saveClicked = mainApp.showAddProduct(selectedProduct);
+            if(saveClicked) {
+                ProductsTableView.refresh();
+            }
+        }
     }
 
     @FXML
@@ -149,11 +174,22 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    void handleDeletePart(ActionEvent event) {
+    public void handleDeletePart() {
         Part selectedPart = PartsTableView.getSelectionModel().getSelectedItem();
         if (selectedPart != null) {
             mainApp.getPartsList().remove(selectedPart);
+            PartsTableView.setItems(mainApp.getPartsList());
             PartsTableView.refresh();
+        }
+    }
+    
+    @FXML 
+    public void handleDeleteProduct() {
+        Product selectedProduct = ProductsTableView.getSelectionModel().getSelectedItem();
+        if(selectedProduct != null) {
+            mainApp.getProductsList().remove(selectedProduct);
+            ProductsTableView.setItems(mainApp.getProductsList());
+            ProductsTableView.refresh();
         }
     }
     
@@ -161,6 +197,50 @@ public class MainMenuController implements Initializable {
         this.mainApp = mainApp;
         
         this.PartsTableView.setItems(mainApp.getPartsList());
+    }
+    
+    @FXML
+    public void handleSearchPart() {
+        ObservableList<Part> searchResults = FXCollections.observableArrayList();
+        String query = PartSearchField.getText();
+        
+        for(Part currentPart : mainApp.getPartsList()) {
+            if((currentPart.getName()).equalsIgnoreCase(query)) {
+                searchResults.add(currentPart);
+            }
+        }
+        
+        PartsTableView.setItems(searchResults);
+        PartsTableView.refresh();
+    }
+    
+    @FXML
+    public void handleCancelPartSearch() {
+        this.PartsTableView.setItems(mainApp.getPartsList());
+        PartSearchField.clear();
+        PartsTableView.refresh();
+    }
+    
+    @FXML
+    public void handleSearchProduct() {
+        ObservableList<Product> searchResults = FXCollections.observableArrayList();
+        String query = ProductSearchField.getText();
+        
+        for(Product currentProduct : mainApp.getProductsList()) {
+            if((currentProduct.getName()).equalsIgnoreCase(query)) {
+                searchResults.add(currentProduct);
+            }
+        }
+        
+        ProductsTableView.setItems(searchResults);
+        ProductsTableView.refresh();
+    }
+    
+    @FXML
+    public void handleCancelProductSearch() {
+        this.ProductsTableView.setItems(mainApp.getProductsList());
+        ProductSearchField.clear();
+        ProductsTableView.refresh();
     }
 }
 

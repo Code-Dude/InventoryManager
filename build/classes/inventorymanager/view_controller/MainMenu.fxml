@@ -14,17 +14,17 @@
             <Font size="21.0" />
          </font>
       </Label>
-      <Button id="Button" fx:id="PartSearchBtn" layoutX="241.0" layoutY="93.0" mnemonicParsing="false" text="Search" />
+      <Button id="Button" fx:id="PartSearchBtn" layoutX="184.0" layoutY="93.0" mnemonicParsing="false" onAction="#handleSearchPart" text="Search" />
       <Button id="Button" fx:id="ExitBtn" layoutX="926.0" layoutY="550.0" mnemonicParsing="false" onAction="#exit" prefHeight="27.0" prefWidth="58.0" text="Exit" />
-      <Button id="Button" fx:id="AddProductBtn" layoutX="772.0" layoutY="478.0" mnemonicParsing="false" onAction="#handleLoadAddProduct" prefHeight="27.0" prefWidth="58.0" text="Add" />
-      <Button id="Button" fx:id="ModifyProductBtn" layoutX="849.0" layoutY="478.0" mnemonicParsing="false" onAction="#handleLoadModifyProduct" prefHeight="27.0" prefWidth="61.0" text="Modify" />
-      <Button id="Button" fx:id="DeleteProductBtn" layoutX="926.0" layoutY="478.0" mnemonicParsing="false" text="Delete" />
+      <Button id="Button" fx:id="AddProductBtn" layoutX="772.0" layoutY="478.0" mnemonicParsing="false" onAction="#handleAddProduct" prefHeight="27.0" prefWidth="58.0" text="Add" />
+      <Button id="Button" fx:id="ModifyProductBtn" layoutX="849.0" layoutY="478.0" mnemonicParsing="false" onAction="#handleModifyProduct" prefHeight="27.0" prefWidth="61.0" text="Modify" />
+      <Button id="Button" fx:id="DeleteProductBtn" layoutX="926.0" layoutY="478.0" mnemonicParsing="false" onAction="#handleDeleteProduct" text="Delete" />
       <Button id="Button" fx:id="AddPartBtn" layoutX="292.0" layoutY="478.0" mnemonicParsing="false" onAction="#handleAddPart" prefHeight="27.0" prefWidth="58.0" text="Add" />
       <Button id="Button" fx:id="ModifyPartBtn" layoutX="364.0" layoutY="478.0" mnemonicParsing="false" onAction="#handleModifyPart" prefHeight="27.0" prefWidth="61.0" text="Modify" />
       <Button id="Button" fx:id="DeletePartBtn" layoutX="442.0" layoutY="478.0" mnemonicParsing="false" onAction="#handleDeletePart" prefHeight="27.0" prefWidth="58.0" text="Delete" />
-      <Button id="Button" fx:id="ProductSearchBtn" layoutX="718.0" layoutY="93.0" mnemonicParsing="false" text="Search" />
-      <TextField id="TextField" fx:id="PartSearchField" layoutX="333.0" layoutY="93.0" />
-      <TextField id="TextField" fx:id="ProductSearchField" layoutX="810.0" layoutY="93.0" />
+      <Button id="Button" fx:id="ProductSearchBtn" layoutX="664.0" layoutY="93.0" mnemonicParsing="false" onAction="#handleSearchProduct" text="Search" />
+      <TextField id="TextField" fx:id="PartSearchField" layoutX="271.0" layoutY="93.0" promptText="Search by name" />
+      <TextField id="TextField" fx:id="ProductSearchField" layoutX="754.0" layoutY="93.0" promptText="Search by name" />
       <Label layoutX="525.0" layoutY="93.0" prefHeight="38.0" prefWidth="99.0" text="Products">
          <font>
             <Font size="20.0" />
@@ -51,5 +51,7 @@
             <TableColumn id="Column" fx:id="ProductPriceColumn" prefWidth="130.0" text="Price Per Unit" />
         </columns>
       </TableView>
+      <Button fx:id="cancelPartSearchBtn" layoutX="467.0" layoutY="93.0" mnemonicParsing="false" onAction="#handleCancelPartSearch" prefHeight="27.0" prefWidth="33.0" text="X" />
+      <Button fx:id="cancelProductSearchBtn" layoutX="951.0" layoutY="93.0" mnemonicParsing="false" onAction="#handleCancelProductSearch" prefHeight="27.0" prefWidth="33.0" text="X" />
     </children>
 </AnchorPane>

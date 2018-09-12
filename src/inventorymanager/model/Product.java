@@ -5,7 +5,14 @@
  */
 package inventorymanager.model;
 
-import java.util.ArrayList;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -13,65 +20,111 @@ import java.util.ArrayList;
  */
 public class Product {
     
-    private ArrayList<Part> associatedParts;
-    private int productID;
-    private String name;
-    private double price;
-    private int inStock;
-    private int min;
-    private int max;
+    private ObservableList<Part> associatedParts;
+    private IntegerProperty productID;
+    private StringProperty name;
+    private DoubleProperty price;
+    private IntegerProperty inStock;
+    private IntegerProperty min;
+    private IntegerProperty max;
     
     public Product() {
-        
+        associatedParts = FXCollections.observableArrayList();
+        productID = new SimpleIntegerProperty(0);
+        name = new SimpleStringProperty("");
+        price = new SimpleDoubleProperty(0.0);
+        inStock = new SimpleIntegerProperty(0);
+        min = new SimpleIntegerProperty(0);
+        max = new SimpleIntegerProperty(0);
     }
     
     public void setName(String newName) {
-        name = newName;
+        name = new SimpleStringProperty(newName);
     }
     
     public String getName() {
+        return name.get();
+    }
+    
+    public StringProperty getNameProperty() {
         return name;
     }
     
     public void setPrice(double newPrice) {
-        price = newPrice;
+        price = new SimpleDoubleProperty(newPrice);
     }
     
     public double getPrice() {
+        return price.get();
+    }
+    
+    public DoubleProperty getPriceProperty() {
         return price;
     }
     
     public void setInStock(int amountInStock) {
-        inStock = amountInStock;
+        inStock = new SimpleIntegerProperty(amountInStock);
     }
     
     public int getInStock() {
+        return inStock.get();
+    }
+    
+    public IntegerProperty getInStockProperty() {
         return inStock;
     }
     
     public void setMin(int newMin) {
-        min = newMin;
+        min = new SimpleIntegerProperty(newMin);
     }
     
     public int getMin() {
+        return min.get();
+    }
+    
+    public IntegerProperty getMinProperty() {
         return min;
     }
     
     public void setMax(int newMax) {
-        max = newMax;
+        max = new SimpleIntegerProperty(newMax);
     }
     
     public int getMax() {
+        return max.get();
+    }
+    
+    public IntegerProperty getMaxProperty() {
         return max;
     }
     
+    public void setProductID(int newID) {
+        productID = new SimpleIntegerProperty(newID);
+    }
+    
+    public int getProductID() {
+        return productID.get();
+    }
+    
+    public IntegerProperty getProductIDProperty() {
+        return productID;
+    }
+    
     public void addAssociatedPart(Part newPart) {
-        
+        associatedParts.add(newPart);
     }
     
     public boolean removeAssociatedPart(int partIndex) {
-        return false;
+        Part newPart = associatedParts.remove(partIndex);
+        
+        if(newPart != null) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
+    
     
 //    public Part lookupAssociatedPart(int partIndex) {
 //        Part newPart = new InhousePart();
@@ -79,11 +132,11 @@ public class Product {
 //        return newPart;
 //    }
     
-    public void setProductID(int newID) {
-        productID = newID;
+    public ObservableList<Part> getAssociatedParts() {
+        return associatedParts;
     }
     
-    public int getProductID() {
-        return productID;
+    public int getIndexOfPart(Part part) {
+        return associatedParts.indexOf(part);
     }
 }

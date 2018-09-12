@@ -9,7 +9,9 @@ import inventorymanager.model.InhousePart;
 import inventorymanager.model.Inventory;
 import inventorymanager.model.OutsourcedPart;
 import inventorymanager.model.Part;
+import inventorymanager.model.Product;
 import inventorymanager.view_controller.AddPartController;
+import inventorymanager.view_controller.AddProductController;
 import inventorymanager.view_controller.MainMenuController;
 import inventorymanager.view_controller.ModifyPartController;
 import java.io.IOException;
@@ -120,11 +122,59 @@ public class InventoryManager extends Application {
             return controller.getPartConfig();
     }
     
+    public boolean showAddProduct(Product newProduct) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(InventoryManager.class.getResource(Router.AddProductURL));
+        Parent page = loader.load();
+
+        // Create the dialog Stage.
+        Stage dialogStage = new Stage();
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        // Set the product in the controller.
+        AddProductController controller = loader.getController();
+        controller.setMainApp(this);
+        controller.setProduct(newProduct);
+        controller.setDialogStage(dialogStage);
+        // Show the dialog and wait until the user closes it
+        dialogStage.showAndWait();
+        return controller.getSaveClicked();
+    }
+    
+    public boolean showModifyProduct(Product selectedProduct) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(InventoryManager.class.getResource(Router.AddProductURL));
+        Parent page = loader.load();
+
+        // Create the dialog Stage.
+        Stage dialogStage = new Stage();
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        // Set the product in the controller.
+        AddProductController controller = loader.getController();
+        controller.setMainApp(this);
+        controller.setProduct(selectedProduct);
+        controller.setDialogStage(dialogStage);
+        // Show the dialog and wait until the user closes it
+        dialogStage.showAndWait();
+        return controller.getSaveClicked();
+    }
+    
     public Stage getPrimaryStage() {
         return this.primaryStage;
     }
     
     public ObservableList<Part> getPartsList() {
         return this.systemInventory.getParts();
+    }
+    
+    public ObservableList<Product> getProductsList() {
+        return this.systemInventory.getProducts();
     }
 }

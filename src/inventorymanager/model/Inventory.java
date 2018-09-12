@@ -61,4 +61,8 @@ public class Inventory {
     public ObservableList<Part> getParts() {
         return this.allParts;
     }
+    
+    public ObservableList<Product> getProducts() {
+        return this.allProducts;
+    }
 }
