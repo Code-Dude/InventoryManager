@@ -137,6 +137,7 @@ public class AddPartController implements Initializable {
     @FXML
     void cancel(ActionEvent event) {
         saveClicked = false;
+        updatePartConfig();
         dialogStage.close();
     }
 
@@ -167,9 +168,7 @@ public class AddPartController implements Initializable {
         }
         
         saveClicked = true;
-        partConfig.clear();
-        partConfig.add(partToggle);
-        partConfig.add(saveClicked);
+        updatePartConfig();
         dialogStage.close();
     }
     
@@ -185,6 +184,12 @@ public class AddPartController implements Initializable {
         else if(OutsourcedRadio.isSelected()) {
             SpecialLabel.setText("Company Name");
         }
+    }
+    
+    private void updatePartConfig() {
+        partConfig.clear();
+        partConfig.add(partToggle);
+        partConfig.add(saveClicked);
     }
 }
 

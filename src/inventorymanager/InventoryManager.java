@@ -88,7 +88,7 @@ public class InventoryManager extends Application {
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
-            // Set the part in the controller.
+            // Set the parts in the controller.
             ModifyPartController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setPart(part);
@@ -110,7 +110,7 @@ public class InventoryManager extends Application {
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
-            // Set the part into the controller.
+            // Set the part in the controller.
             AddPartController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setParts(inPart, outPart);
