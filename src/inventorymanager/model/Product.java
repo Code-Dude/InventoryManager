@@ -125,12 +125,14 @@ public class Product {
         }
     }
     
+    public void setAssociatedParts(ObservableList<Part> newPartList) {
+        this.associatedParts = newPartList;
+    }
     
-//    public Part lookupAssociatedPart(int partIndex) {
-//        Part newPart = new InhousePart();
-//        
-//        return newPart;
-//    }
+    
+    public Part lookupAssociatedPart(int partIndex) {     
+        return associatedParts.get(partIndex);
+    }
     
     public ObservableList<Part> getAssociatedParts() {
         return associatedParts;
@@ -138,5 +140,15 @@ public class Product {
     
     public int getIndexOfPart(Part part) {
         return associatedParts.indexOf(part);
+    }
+    
+    public static double sumPartPrices(ObservableList<Part> listToSum) {
+        double sum = 0.0;
+        
+        for(int i = 0; i < listToSum.size(); ++i) {
+            sum += listToSum.get(i).getPrice();
+        }
+        
+        return sum;
     }
 }

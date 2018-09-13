@@ -15,6 +15,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -72,6 +74,7 @@ public class AddProductController implements Initializable {
     private InventoryManager mainApp;
     private boolean saveClicked;
     private boolean modifyingPart;
+    private ObservableList<Part> partStorage;
     
     /**
      * Initializes the controller class.
@@ -88,6 +91,8 @@ public class AddProductController implements Initializable {
         ProductPartInventoryColumn.setCellValueFactory(cellData -> cellData.getValue().getInStockProperty().asObject());
         ProductPartPriceColumn.setCellValueFactory(cellData -> cellData.getValue().getPriceProperty().asObject());
         
+        
+        partStorage = FXCollections.observableArrayList();
         saveClicked = false;
     }
     
@@ -111,8 +116,10 @@ public class AddProductController implements Initializable {
         MaxField.setText(Integer.toString(product.getMax()));
         MinField.setText(Integer.toString(product.getMin()));
         
+        partStorage = FXCollections.observableArrayList(product.getAssociatedParts());
+        
         AllPartsTable.setItems(mainApp.getPartsList());
-        ProductPartsTable.setItems(product.getAssociatedParts());
+        ProductPartsTable.setItems(partStorage);
     }
     
     public void setMainApp(InventoryManager mainApp) {
@@ -123,7 +130,7 @@ public class AddProductController implements Initializable {
     public void handleAddPart() {
         Part selectedPart = (Part) AllPartsTable.getSelectionModel().getSelectedItem();
         if(selectedPart != null) {
-            product.addAssociatedPart(selectedPart);
+            partStorage.add(selectedPart);
             refreshTables();
         }
     }
@@ -133,26 +140,35 @@ public class AddProductController implements Initializable {
         Part selectedPart = (Part) ProductPartsTable.getSelectionModel().getSelectedItem();
         
         if(selectedPart != null) {
-            product.removeAssociatedPart(product.getIndexOfPart(selectedPart));
+            partStorage.remove(selectedPart);
         }
     }
     
     private void refreshTables() {
         AllPartsTable.refresh();
-        ProductPartsTable.setItems(product.getAssociatedParts());
+        ProductPartsTable.setItems(partStorage);
         ProductPartsTable.refresh();
     }
     
     public void handleSave() {
-        product.setProductID(Integer.parseInt(IDField.getText()));
-        product.setName(NameField.getText());
-        product.setInStock(Integer.parseInt(InventoryField.getText()));
-        product.setPrice(Double.parseDouble(PriceField.getText()));
-        product.setMax(Integer.parseInt(MaxField.getText()));
-        product.setMin(Integer.parseInt(MinField.getText()));
-        
-        saveClicked = true;
-        dialogStage.close();
+        try {
+            checkValidNumParts();
+            checkValidPrice();
+            product.setProductID(Integer.parseInt(IDField.getText()));
+            product.setName(NameField.getText());
+            product.setInStock(Integer.parseInt(InventoryField.getText()));
+            product.setPrice(Double.parseDouble(PriceField.getText()));
+            product.setMax(Integer.parseInt(MaxField.getText()));
+            product.setMin(Integer.parseInt(MinField.getText()));
+            product.setAssociatedParts(partStorage);
+
+            saveClicked = true;
+            dialogStage.close();
+        } catch (InvalidNumberOfPartsException e) {
+            showWarningAlert(e.getMessage());
+        } catch (InvalidPriceException e) {
+            showWarningAlert(e.getMessage());
+        }
     }
     
     
@@ -182,6 +198,40 @@ public class AddProductController implements Initializable {
         AllPartsTable.setItems(mainApp.getPartsList());
         SearchField.clear();
         AllPartsTable.refresh();
+    }
+    
+    private void checkValidNumParts() throws InvalidNumberOfPartsException {
+        if(partStorage.size() < 1) {
+            throw new InvalidNumberOfPartsException("Not enough parts.");
+        }
+    }
+    
+    private void checkValidPrice() throws InvalidPriceException {
+        double currentPrice = Double.parseDouble(PriceField.getText());
+        
+        if(currentPrice < Product.sumPartPrices(partStorage)) {
+            throw new InvalidPriceException("Cost of product is too low.");
+        }
+    }
+    
+    public void showWarningAlert(String message) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Invalid Product");
+            alert.setHeaderText(message);
+
+            alert.showAndWait(); 
+    }
+}
+
+class InvalidPriceException extends Exception {
+    public InvalidPriceException(String message) {
+        super(message);
+    }
+}
+
+class InvalidNumberOfPartsException extends Exception {
+    public InvalidNumberOfPartsException(String message) {
+        super(message);
     }
 }
 

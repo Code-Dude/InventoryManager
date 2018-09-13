@@ -6,7 +6,6 @@
 package inventorymanager.model;
 
 import javafx.collections.FXCollections;
-import static javafx.collections.FXCollections.observableArrayList;
 import javafx.collections.ObservableList;
 
 /**
@@ -23,7 +22,7 @@ public class Inventory {
     }
     
     public void addProduct(Product product) {
-        
+        allProducts.add(product);
     }
     
     public boolean removeProduct(int productIndex) {
@@ -37,7 +36,7 @@ public class Inventory {
     }
     
     public void updateProduct(int productIndex, Product product) {
-        
+        allProducts.set(productIndex, product);
     }
     
     public void addPart(Part part) {
@@ -48,14 +47,12 @@ public class Inventory {
         return false;
     }
     
-//    public Part lookupPart(int partIndex) {
-//        Part newPart = new InhousePart();
-//        
-//        return newPart;
-//    }
+    public Part lookupPart(int partIndex) {
+        return allParts.get(partIndex);
+    }
     
     public void updatePart(int partIndex, Part part) {
-        
+        allParts.set(partIndex, part);
     }
     
     public ObservableList<Part> getParts() {

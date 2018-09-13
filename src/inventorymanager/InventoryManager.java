@@ -36,11 +36,14 @@ public class InventoryManager extends Application {
     
     public InventoryManager() {
         systemInventory = new Inventory();
-        Part newInHouse = new InhousePart(12345, "partA", 3.45, 12, 10, 50, 12345);
-        Part newOutsourced = new OutsourcedPart(123456, "partB", 5.45, 40, 10, 100, "Company A");
-        
-        systemInventory.addPart(newInHouse);
-        systemInventory.addPart(newOutsourced);
+        for(int i = 0; i < 10; ++i) {
+            String idNum = Integer.toString(i);
+            Part newInHouse = new InhousePart(i, "part" + idNum, i + 43.46, 12, 10, 50, i + 1000);
+            Part newOutsourced = new OutsourcedPart(i + 10, "part", i + 27.85, 40, 10, 100, "Company" + idNum);
+
+            systemInventory.addPart(newInHouse);
+            systemInventory.addPart(newOutsourced);
+        }
     }
     
     @Override
